@@ -62,14 +62,14 @@ function init() {
     controls.enableDamping = true;
     controls.dampingFactor = 0.1;
     controls.screenSpacePanning = false;
-    //controls.maxPolarAngle = Math.PI / 2;
+    controls.maxPolarAngle = Math.PI / 2;
 
     // Scene
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x111111);
     // scene.fog = new THREE.Fog(0x111111, 0.002)
     let axesHelper = new THREE.AxesHelper(100);
-    scene.add(axesHelper);
+    //scene.add(axesHelper);
 
     // Lights
     let light = new THREE.DirectionalLight(0xffffff);
