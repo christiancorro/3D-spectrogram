@@ -5,15 +5,18 @@ import { GLTFExporter } from 'https://unpkg.com/three@0.108.0/examples/jsm/expor
 import { OBJExporter } from 'https://unpkg.com/three@0.108.0/examples/jsm/exporters/OBJExporter.js';
 import Stats from 'https://unpkg.com/three@0.108.0/examples/jsm/libs/stats.module.js';
 
+//TODO: improve coloring, set frequency limit, map linear to log
+
+
 // Visual
 let camera, controls, scene, renderer;
 let geometry, material, mesh;
 
-let fftSize = 512;
+let fftSize = 512, maxFreq = 8000;
 let width, height, widthDiv, heightDiv;
 width = 1024;
 height = width * 2.2;
-widthDiv = fftSize / 2 + 1;
+widthDiv = fftSize / 2 - 1;
 heightDiv = widthDiv;
 
 let stats;
@@ -96,7 +99,7 @@ function init() {
 
     // Material
     material = new THREE.MeshStandardMaterial({
-        color: 0x2194CE,
+        // color: 0x2194CE,
         wireframe: true,
         vertexColors: THREE.FaceColors
     });
@@ -143,13 +146,12 @@ function updateGeometry() {
                 for (let j = 0; j < data[i].length; j++) {
                     vertex = geometry.vertices[i * (heightDiv + 1) + j];
                     vertex.lerp(new THREE.Vector3(vertex.x, data[i][j], vertex.z), 1);
-
                 }
             }
 
         geometry.faces.forEach(function (face) {
             var val = geometry.vertices[face.a].y;
-            face.color.setRGB(Math.abs(val) / 10 * 2, Math.abs(val) / 10 * 2, Math.abs(val) / 10);
+            face.color.setRGB(Math.abs(val) / 100, Math.abs(val) / 20, Math.abs(val) / 20);
         });
 
         geometry.colorsNeedUpdate = true;
